@@ -1,8 +1,11 @@
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/assets/css/style.css",
+  "/assets/css/styles.css",
   "/assets/js/index.js",
+  "/assets/js/db.js",
+  "/assets/icons/icon-192x192.png",
+  "/assets/icons/icon-512x512.png",
   "/dist/bundle.js",
   "https://fonts.googleapis.com/css?family=Istok+Web|Montserrat:800&display=swap",
   "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css",
