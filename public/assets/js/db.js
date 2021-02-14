@@ -30,30 +30,28 @@ function checkDatabase() {
   const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
 
-  const getTransactions = store.getTransactions();
+  const getAll = store.getAll();
 
-  getTransactions.onsuccess = function () {
-    if (getTransactions.result.length > 0) {
+  getAll.onsuccess = function () {
+    if (getAll.result.length > 0) {
       fetch("/api/transaction/bulk", {
         method: "POST",
-        body: JSON.stringify(getTransactions.result),
+        body: JSON.stringify(getAll.result),
         headers: {
           ccept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
-      }).then(response => response.json()).then(()
-      =>{
-        const transaction = db.transaction(["pending"], "readwrite");
+      })
+        .then((response) => response.json())
+        .then(() => {
+          const transaction = db.transaction(["pending"], "readwrite");
 
-        const store = transaction.objectStore("pending");
-      
-        store.clear();
+          const store = transaction.objectStore("pending");
 
-      });
+          store.clear();
+        });
     }
   };
 }
 
 window.addEventListener("online", checkDatabase);
-
-
