@@ -11,7 +11,6 @@ const FILES_TO_CACHE = [
 const CACHE_NAME = "static-cache-v1";
 const DATA_CACHE_NAME = "data-cache-v1";
 
-//adds an install event to the self object that opens and caches our files, confirms the cache and triggers the callback
 self.addEventListener("install", function (evt) {
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -20,11 +19,10 @@ self.addEventListener("install", function (evt) {
     })
   );
 
-  //skips the waiting process so the service worker becomes activated
   self.skipWaiting();
 });
 
-// activate - manages the old caches under the service-workers scope
+
 self.addEventListener("activate", function (evt) {
   evt.waitUntil(
     caches.keys().then((keyList) => {
@@ -39,7 +37,7 @@ self.addEventListener("activate", function (evt) {
     })
   );
 
-  //causes pages to be controlled immediately, before next load event
+
   self.clients.claim();
 });
 
@@ -53,7 +51,7 @@ self.addEventListener("fetch", function (evt) {
         .then((cache) => {
           return fetch(evt.request)
             .then((response) => {
-              // If the response was successful -  clone it and store in the cache.
+             
               if (response.status === 200) {
                 cache.put(evt.request.url, response.clone());
               }
@@ -61,7 +59,7 @@ self.addEventListener("fetch", function (evt) {
               return response;
             })
             .catch((err) => {
-              // Network request failed, (we are most likely offline) - try to retrieve request from the cache.
+             
               return cache.match(evt.request);
             });
         })
